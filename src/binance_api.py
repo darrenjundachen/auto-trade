@@ -5,11 +5,16 @@ from utils import datetime_to_timestamp
 import hmac
 import hashlib
 from keys import api_key, secret_key
+from enum import Enum
 
 base = "https://api.binance.com/api/v3"
 symbo = "BTCUSDT"
+base_currency = "USDT"
+target_currency = "BTC"
 
-# POST /api/v3/order
+class TradeType(Enum):
+    SELL = 1
+    BUY = 2
 
 
 def get_signature(body):
@@ -31,7 +36,7 @@ def get_order_books():
     return res.json()
 
 
-def get_accounnt_information():
+def get_account_information():
     params = {"timestamp": datetime_to_timestamp(datetime.now())}
     params["signature"] = get_signature(params)
     res = requests.get(
@@ -40,7 +45,7 @@ def get_accounnt_information():
     return res.json()
 
 
-def get_klines(start, end, interval='1m'):
+def get_klines(start, end, interval="1m"):
     res = requests.get(
         f"{base}/klines",
         params={
@@ -52,5 +57,22 @@ def get_klines(start, end, interval='1m'):
             "endTime": datetime_to_timestamp(end) if isinstance(end, datetime) else end,
             "limit": 1000,
         },
+    )
+    return res.json()
+
+
+def create_order(quantity, price, trade_type):
+    params = {
+        "symbol": symbo,
+        "side": "BUY" if trade_type == TradeType.BUY else "SELL",
+        "type": "LIMIT",
+        "timeInForce": "FOK",
+        "quantity": quantity,
+        "price": price,
+        "timestamp": datetime_to_timestamp(datetime.now()),
+    }
+    params["signature"] = get_signature(params)
+    res = requests.post(
+        f"{base}/order", params=params, headers={"X-MBX-APIKEY": api_key}
     )
     return res.json()
