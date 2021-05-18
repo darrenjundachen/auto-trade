@@ -40,12 +40,12 @@ def get_accounnt_information():
     return res.json()
 
 
-def get_klines(start, end):
+def get_klines(start, end, interval='1m'):
     res = requests.get(
         f"{base}/klines",
         params={
             "symbol": symbo,
-            "interval": "1m",
+            "interval": interval,
             "startTime": datetime_to_timestamp(start)
             if isinstance(start, datetime)
             else start,
@@ -54,6 +54,3 @@ def get_klines(start, end):
         },
     )
     return res.json()
-
-
-print(get_accounnt_information())
