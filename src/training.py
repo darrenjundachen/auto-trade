@@ -146,4 +146,4 @@ def simulate(
         current += timedelta(minutes=1)
 
 
-simulate(datetime(2021, 1, 1), 1.04, 12, 1.02, (1 - 0.002), 48) 
+simulate(datetime(2021, 4, 1), 1.04, 12, 1.02, (1 - 0.002), 48) 
