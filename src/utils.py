@@ -13,10 +13,11 @@ def timestamp_to_datetime(timestamp):
     return datetime.fromtimestamp(timestamp / 1000)
 
 
-def log(message):
+def log(message, print_message=True):
     message = f"[{datetime.now()}]\n{message}"
     file_name = datetime.now().strftime("%Y-%m-%d")
-    print(message)
+    if print_message:
+        print(message)
     f = open(f"../logs/{file_name}.txt", "a")
     f.write(message + "\n")
     f.close()
