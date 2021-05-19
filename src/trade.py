@@ -107,7 +107,7 @@ def trade():
     drop_time = datetime.now() + timedelta(hours=sell_waiting_time)
 
     while True:
-        send_heart_beat()
+        send_heart_beat(status)
         if status == Status.WAITING_BUYING:
             peak_price = get_peak_price(buy_period)
             current_selling_price = get_current_selling_price()
