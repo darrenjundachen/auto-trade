@@ -33,6 +33,7 @@ def get_order_books():
     asks: sell orders
     """
     res = requests.get(f"{base}/depth", params={"symbol": symbo, "limit": 100})
+    res.raise_for_status()
     return res.json()
 
 
@@ -42,6 +43,7 @@ def get_account_information():
     res = requests.get(
         f"{base}/account", params=params, headers={"X-MBX-APIKEY": api_key}
     )
+    res.raise_for_status()
     return res.json()
 
 
@@ -58,6 +60,7 @@ def get_klines(start, end, interval="1m"):
             "limit": 1000,
         },
     )
+    res.raise_for_status()
     return res.json()
 
 
@@ -75,4 +78,5 @@ def create_order(quantity, price, trade_type):
     res = requests.post(
         f"{base}/order", params=params, headers={"X-MBX-APIKEY": api_key}
     )
+    res.raise_for_status()
     return res.json()
