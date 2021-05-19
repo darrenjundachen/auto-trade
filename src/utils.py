@@ -72,7 +72,4 @@ def send_heart_beat(status):
 
     last_sent = datetime.now()
 
-    try:
-        message_slack(f"Hey, current status: {status.name}")
-    except:
-        print("Failed sending heart beat")
+    message_slack(f"Hey, current status: {status.name}")
