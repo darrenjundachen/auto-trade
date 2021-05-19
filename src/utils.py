@@ -1,5 +1,6 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 import math
+import requests
 
 sample_log_count = {}
 
@@ -49,3 +50,28 @@ def round_decimals_down(number: float, decimals: int = 2):
 
     factor = 10 ** decimals
     return math.floor(number * factor) / factor
+
+
+def message_slack(message):
+    requests.post(
+        "https://hooks.slack.com/services/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",
+        headers={"Content-type": "application/json"},
+        json={"text": message},
+    )
+
+
+last_sent = None
+
+
+def send_heart_beat(status):
+    global last_sent
+
+    if last_sent and (last_sent + timedelta(minutes=60)) > datetime.now():
+        return
+
+    last_sent = datetime.now()
+
+    try:
+        message_slack(f"Hey, current status: {status.name}")
+    except:
+        print("Failed sending heart beat")

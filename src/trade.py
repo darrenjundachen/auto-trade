@@ -1,6 +1,6 @@
 import time
 from enum import Enum
-from utils import log, sample_log, datetime_to_timestamp, round_decimals_down
+from utils import log, sample_log, datetime_to_timestamp, round_decimals_down, send_heart_beat
 from binance_api import (
     get_klines,
     get_order_books,
@@ -107,6 +107,7 @@ def trade():
     drop_time = datetime.now() + timedelta(hours=sell_waiting_time)
 
     while True:
+        send_heart_beat()
         if status == Status.WAITING_BUYING:
             peak_price = get_peak_price(buy_period)
             current_selling_price = get_current_selling_price()
