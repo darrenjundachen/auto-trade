@@ -181,7 +181,7 @@ def trade():
                     status = Status.WAITING_BUYING
                     current_base_balance = get_base_balance()
                     log(
-                        f"Sold with price {current_buying_price}, current balance: f{current_base_balance}"
+                        f"Sold with price {current_buying_price}, current balance: {current_base_balance}"
                     )
                 else:
                     log(f"*Failed* to sell with price {current_buying_price}")
