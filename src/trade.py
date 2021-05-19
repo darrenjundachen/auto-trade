@@ -14,9 +14,10 @@ from datetime import datetime, timedelta
 
 
 class Status(Enum):
-    BUYING = 1
-    WAITTING_TARGET = 2
-    OVER_TARGET = 3
+    WAITING_BUYING = 1
+    BELOW_BUYING = 2
+    WAITING_SELLING = 3
+    OVER_SELLING = 4
 
 
 def get_balance(currency):
@@ -86,16 +87,13 @@ def buy_all(price):
 
 def trade():
     # Config
-    peak_percentage = 1.04  # Drop 1.04 buy in
-    peak_period = 12  # Count within 12 hours
-    target_profit = 1.02  # Increase 1.02 to meet target
-    target_peak_drop_percentage = 1.002  # Drop 0.002 from target to sell
-    max_waiting_time = 48  # Wait for 48 hours untile drop sell
+    buy_period = 12 # Count within 12 hours
+    buy_point = 1.04  # Drop 1.04 to start buying
+    buy_rise_to_execute = 1.002 # Rise 1.002 to exute the buy (To prevent buying when droppping)
+    sell_point = 1.02  # Increase 1.02 to meet target
+    sell_drop_to_execute = 1.002  # Drop 0.002 from target to sell (To Prevent selling when rising)
+    sell_waiting_time = 48  # Wait for 48 hours until drop sell
 
-    # Default status
-    status = Status.BUYING
-    over_target_peak_price = None
-    
 
     # print(get_base_balance())
     # print(get_target_balance())
