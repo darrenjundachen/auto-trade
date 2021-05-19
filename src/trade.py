@@ -95,7 +95,7 @@ def buy_all(price):
     return res["status"] == "FILLED"
 
 
-def trade():
+def trade(status, sell_point_price, drop_time):
     # Config
     buy_period = 12  # Count within 12 hours
     buy_point = 1.04  # Drop 1.04 to start buying
@@ -107,11 +107,6 @@ def trade():
         1.002  # Drop 0.002 from target to sell (To Prevent selling when rising)
     )
     sell_waiting_time = 48  # Wait for 48 hours until drop sell
-
-    # Run time data
-    status = Status.WAITING_BUYING
-    sell_point_price = None
-    drop_time = datetime.now() + timedelta(hours=sell_waiting_time)
 
     while True:
         try:
@@ -172,7 +167,7 @@ def trade():
                         log(f"*Failed* to sell with price {current_buying_price}")
                 else:
                     sample_log(
-                        f"[WAITING_SELLING] Waiting for the price to rise. Sell point price: {sell_point_price}, Current buying: {current_buying_price}",
+                        f"[WAITING_SELLING] Waiting for the price to rise. Sell point price: {sell_point_price}, Current buying: {current_buying_price}, Drop time: {drop_time}",
                         f"waiting_price_rise_sell_point",
                     )
             elif status == Status.OVER_SELLING:
@@ -209,6 +204,3 @@ def trade():
             log(traceback.format_exc(), print_message=False)
 
         time.sleep(1)
-
-
-trade()
