@@ -131,3 +131,5 @@ dmypy.json
 keys.py
 
 log.txt
+
+logs/

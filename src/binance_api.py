@@ -62,6 +62,10 @@ def get_klines(start, end, interval="1m"):
 
 
 def create_order(quantity, price, trade_type):
+    return {
+        'status':'EXPIRED'
+    }
+
     params = {
         "symbol": symbo,
         "side": "BUY" if trade_type == TradeType.BUY else "SELL",
