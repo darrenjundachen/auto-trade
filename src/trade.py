@@ -65,7 +65,7 @@ def get_current_selling_price():
         total_base_amount -= base_amount
         if total_base_amount <= 0:
             return price
-    log(f"** Error, Attention! **, need to extend order book list")
+    log("** Error, Attention! **, need to extend order book list")
     raise Exception("Need to extend order book list")
 
 def get_current_buying_price():
@@ -80,7 +80,7 @@ def get_current_buying_price():
         total_target_amount -= target_amount
         if total_target_amount <= 0:
             return price
-    log(f"** Error, Attention! **, need to extend order book list")
+    log("** Error, Attention! **, need to extend order book list")
     raise Exception("Need to extend order book list")
 
 
