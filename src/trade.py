@@ -117,7 +117,6 @@ def trade(holding_highest_price, status, sell_point_price):
 
     while True:
         try:
-            send_heart_beat(status)
             if status == Status.WAITING_BUYING:
                 peak_price = get_peak_price(buy_period)
                 if peak_price > holding_highest_price:
@@ -198,6 +197,8 @@ def trade(holding_highest_price, status, sell_point_price):
                     )
             else:
                 raise Exception("Status not supported")
+
+            send_heart_beat(status)
         except Exception:
             log("*Error*, please check log file for details")
             log(traceback.format_exc(), print_message=False)
