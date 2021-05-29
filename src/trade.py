@@ -98,7 +98,7 @@ def buy_all(price):
     return res["status"] == "FILLED"
 
 
-def trade(holding_highest_price, status, sell_point_price, drop_time):
+def trade(holding_highest_price, status, sell_point_price):
     # Config
     buy_period = 12  # Count within 12 hours
     buy_point = 1.04  # Drop 1.04 to start buying
@@ -109,13 +109,11 @@ def trade(holding_highest_price, status, sell_point_price, drop_time):
     sell_drop_to_execute = (
         1.002  # Drop 0.002 from target to sell (To Prevent selling when rising)
     )
-    sell_waiting_time = 48  # Wait for 48 hours until drop sell
 
     print(f"strat trading")
     print(f"holding_highest_price: {holding_highest_price}")
     print(f"status: {status.name}")
     print(f"sell_point_price: {sell_point_price}")
-    print(f"drop_time: {drop_time}")
 
     while True:
         try:
@@ -151,7 +149,6 @@ def trade(holding_highest_price, status, sell_point_price, drop_time):
                     if buy_all(current_selling_price):
                         status = Status.WAITING_SELLING
                         sell_point_price = current_selling_price * sell_point
-                        drop_time = datetime.now() + timedelta(hours=sell_waiting_time)
                         log(f"Bought with price {current_selling_price}")
                     else:
                         log(f"*Failed* to buy with price {current_selling_price}")
@@ -167,13 +164,9 @@ def trade(holding_highest_price, status, sell_point_price, drop_time):
                     status = Status.OVER_SELLING
                     current_highest_price = current_buying_price
                     log(f"Reached sell point {current_buying_price}")
-                elif drop_time and datetime.now() > drop_time:
-                    sell_point_price = sell_point_price / sell_point
-                    drop_time = None
-                    log(f"Reached drop time, adjusted sell price {sell_point_price}")
                 else:
                     sample_log(
-                        f"[WAITING_SELLING] Waiting for the price to rise. Sell point price: {sell_point_price}, Current buying: {current_buying_price}, Drop time: {drop_time}",
+                        f"[WAITING_SELLING] Waiting for the price to rise. Sell point price: {sell_point_price}, Current buying: {current_buying_price}",
                         f"waiting_price_rise_sell_point",
                     )
             elif status == Status.OVER_SELLING:
