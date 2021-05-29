@@ -8,7 +8,7 @@ holding_highest_price = None # This is to prevent sudden spike
 
 if len(sys.argv) == 2:
     holding_highest_price = float(sys.argv[1])
-elif len(sys.argv) == 5:
+elif len(sys.argv) == 4:
     holding_highest_price = float(sys.argv[1])
     status = Status[sys.argv[2]]
     sell_point_price = float(sys.argv[3])
