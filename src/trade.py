@@ -110,7 +110,7 @@ def trade(holding_highest_price, status, sell_point_price):
         1.002  # Drop 0.002 from target to sell (To Prevent selling when rising)
     )
 
-    print(f"strat trading")
+    print(f"start trading")
     print(f"holding_highest_price: {holding_highest_price}")
     print(f"status: {status.name}")
     print(f"sell_point_price: {sell_point_price}")
