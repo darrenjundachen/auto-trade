@@ -98,7 +98,7 @@ def buy_all(price):
     return res["status"] == "FILLED"
 
 
-def trade(status, sell_point_price, drop_time):
+def trade(holding_highest_price, status, sell_point_price, drop_time):
     # Config
     buy_period = 12  # Count within 12 hours
     buy_point = 1.04  # Drop 1.04 to start buying
@@ -110,15 +110,20 @@ def trade(status, sell_point_price, drop_time):
         1.002  # Drop 0.002 from target to sell (To Prevent selling when rising)
     )
     sell_waiting_time = 48  # Wait for 48 hours until drop sell
-    current_highest_price = 40000
+
+    print(f"strat trading")
+    print(f"holding_highest_price: {holding_highest_price}")
+    print(f"status: {status.name}")
+    print(f"sell_point_price: {sell_point_price}")
+    print(f"drop_time: {drop_time}")
 
     while True:
         try:
             send_heart_beat(status)
             if status == Status.WAITING_BUYING:
                 peak_price = get_peak_price(buy_period)
-                if peak_price > current_highest_price:
-                    peak_price = current_highest_price
+                if peak_price > holding_highest_price:
+                    peak_price = holding_highest_price
                     
                 current_selling_price = get_current_selling_price()
                 if peak_price > current_selling_price * buy_point:
