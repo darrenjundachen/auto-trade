@@ -5,7 +5,7 @@ import sys
 status = Status.WAITING_BUYING
 sell_point_price = None
 drop_time = None
-holding_highest_price = None
+holding_highest_price = None # This is to prevent sudden spike
 
 if len(sys.argv) == 2:
     holding_highest_price = float(sys.argv[1])
