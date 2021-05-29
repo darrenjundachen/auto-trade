@@ -110,12 +110,16 @@ def trade(status, sell_point_price, drop_time):
         1.002  # Drop 0.002 from target to sell (To Prevent selling when rising)
     )
     sell_waiting_time = 48  # Wait for 48 hours until drop sell
+    current_highest_price = 40000
 
     while True:
         try:
             send_heart_beat(status)
             if status == Status.WAITING_BUYING:
                 peak_price = get_peak_price(buy_period)
+                if peak_price > current_highest_price:
+                    peak_price = current_highest_price
+                    
                 current_selling_price = get_current_selling_price()
                 if peak_price > current_selling_price * buy_point:
                     log(
@@ -158,16 +162,10 @@ def trade(status, sell_point_price, drop_time):
                     status = Status.OVER_SELLING
                     current_highest_price = current_buying_price
                     log(f"Reached sell point {current_buying_price}")
-                elif datetime.now() > drop_time:
-                    # Time to drop sell
-                    if sell_all(current_buying_price):
-                        status = Status.WAITING_BUYING
-                        current_base_balance = get_base_balance()
-                        log(
-                            f"Drop sold with price {current_buying_price}, current balance: f{current_base_balance}"
-                        )
-                    else:
-                        log(f"*Failed* to sell with price {current_buying_price}")
+                elif drop_time and datetime.now() > drop_time:
+                    sell_point_price = sell_point_price / sell_point
+                    drop_time = None
+                    log(f"Reached drop time, adjusted sell price {sell_point_price}")
                 else:
                     sample_log(
                         f"[WAITING_SELLING] Waiting for the price to rise. Sell point price: {sell_point_price}, Current buying: {current_buying_price}, Drop time: {drop_time}",
