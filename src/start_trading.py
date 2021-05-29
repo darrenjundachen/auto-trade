@@ -18,7 +18,7 @@ else:
     raise Exception("Wrong!")
 
 assert holding_highest_price is not None
-assert holding_highest_price != ""
+assert holding_highest_price > 20000 and holding_highest_price < 70000
 
 trade(
     holding_highest_price=holding_highest_price,
