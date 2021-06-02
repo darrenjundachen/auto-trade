@@ -27,12 +27,12 @@ def get_signature(body):
     ).hexdigest()
 
 
-def get_order_books():
+def get_order_books(limit=100):
     """
     bids: buy orders
     asks: sell orders
     """
-    res = requests.get(f"{base}/depth", params={"symbol": symbo, "limit": 100})
+    res = requests.get(f"{base}/depth", params={"symbol": symbo, "limit": limit})
     res.raise_for_status()
     return res.json()
 
