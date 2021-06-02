@@ -6,7 +6,7 @@ while True:
     order_books = get_order_books(limit=5000)
     bids = order_books['bids']
     asks = order_books['asks']
-    rate = 1.03
+    rate = 1.04
     
     bid_total = 0
     bid_begin = float(bids[0][0])
@@ -37,8 +37,8 @@ while True:
     result = round((bid_total - ask_total) / bid_total * 100, 2)
 
     if result > 0:
-        print(f'{Fore.GREEN}{result}')
+        print(f'{Fore.GREEN}{result}', end=' ', flush=True)
     else:
-        print(f'{Fore.RED}{result}')
+        print(f'{Fore.RED}{-result}', end=' ', flush=True)
 
-    time.sleep(3)
+    time.sleep(10)
