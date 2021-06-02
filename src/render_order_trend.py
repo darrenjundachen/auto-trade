@@ -51,5 +51,5 @@ def aninmate(i):
     plt.title(f"{date_length_minutes} minutes")
 
 
-ani = FuncAnimation(plt.gcf(), aninmate, interval=8000)
+ani = FuncAnimation(plt.gcf(), aninmate, interval=3000)
 plt.show()
