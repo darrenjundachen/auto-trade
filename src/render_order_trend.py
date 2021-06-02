@@ -4,7 +4,7 @@ from colorama import Fore
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 from matplotlib.animation import FuncAnimation
-from matplotlib.dates import DateFormatter, MinuteLocator
+from matplotlib.dates import DateFormatter, SecondLocator
 import sys
 from tinydb import TinyDB, Query
 
@@ -45,7 +45,7 @@ def aninmate(i):
         width=9 / 24 / 60 / 60,
     )
     plt.gca().xaxis.set_major_formatter(DateFormatter("%H:%M:%S"))
-    plt.gca().xaxis.set_major_locator(MinuteLocator(interval=1))
+    plt.gca().xaxis.set_major_locator(SecondLocator(interval=int(date_length_minutes * 60 / 10)))
     plt.xticks(rotation=90)
     plt.grid()
     plt.title(f"{date_length_minutes} minutes")
