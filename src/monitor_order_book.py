@@ -84,6 +84,7 @@ def aninmate(i):
     plt.gca().xaxis.set_major_locator(MinuteLocator(interval=1))
     plt.xticks(rotation=90)
     plt.grid()
+    plt.title(f"{date_length_minutes} minutes")
 
 
 ani = FuncAnimation(plt.gcf(), aninmate, interval=10000)
