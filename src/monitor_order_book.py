@@ -2,9 +2,15 @@ import time
 from binance_api import get_order_books
 from colorama import Fore
 import matplotlib.pyplot as plt
-from datetime import datetime
+from datetime import datetime, timedelta
 from matplotlib.animation import FuncAnimation
 from matplotlib.dates import DateFormatter, MinuteLocator
+import sys
+
+if len(sys.argv) != 2:
+    raise Exception("Invalid")
+
+date_length_minutes = int(sys.argv[1])
 
 
 def get_number():
@@ -46,9 +52,17 @@ items = []
 
 
 def aninmate(i):
+    global items
+
     items.append(
         {"x": datetime.now(), "y": get_number()},
     )
+
+    items = [
+        item
+        for item in items
+        if item["x"] > (datetime.now() - timedelta(minutes=date_length_minutes))
+    ]
 
     positive_items = [item for item in items if item["y"] >= 0]
     negative_items = [item for item in items if item["y"] < 0]
