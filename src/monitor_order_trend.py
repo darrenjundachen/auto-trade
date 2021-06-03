@@ -7,6 +7,7 @@ from matplotlib.animation import FuncAnimation
 from matplotlib.dates import DateFormatter, MinuteLocator
 from tinydb import TinyDB, Query
 import sys
+import traceback
 
 db = TinyDB('../order_trend.json')
 Item = Query()
@@ -46,8 +47,11 @@ def get_number():
     return round((bid_total - ask_total) / bid_total * 100, 2)
 
 while True:
-    now = datetime.now()
-    last_valid_time = (now - timedelta(hours=2)).strftime("%Y-%m-%dT%H:%M:%S")
-    db.insert({'time': datetime.now().strftime("%Y-%m-%dT%H:%M:%S"), 'figure': get_number()})
-    db.remove(Item.time < last_valid_time)
-    time.sleep(10)
+    try:
+        now = datetime.now()
+        last_valid_time = (now - timedelta(hours=2)).strftime("%Y-%m-%dT%H:%M:%S")
+        db.insert({'time': datetime.now().strftime("%Y-%m-%dT%H:%M:%S"), 'figure': get_number()})
+        db.remove(Item.time < last_valid_time)
+        time.sleep(10)
+    except:
+        print(traceback.format_exc())
