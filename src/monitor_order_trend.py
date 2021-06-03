@@ -49,7 +49,7 @@ def get_number():
 while True:
     try:
         now = datetime.now()
-        last_valid_time = (now - timedelta(hours=2)).strftime("%Y-%m-%dT%H:%M:%S")
+        last_valid_time = (now - timedelta(hours=5)).strftime("%Y-%m-%dT%H:%M:%S")
         db.insert({'time': datetime.now().strftime("%Y-%m-%dT%H:%M:%S"), 'figure': get_number()})
         db.remove(Item.time < last_valid_time)
         time.sleep(10)
