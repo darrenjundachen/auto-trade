@@ -32,7 +32,7 @@ def get_order_books(limit=100):
     bids: buy orders
     asks: sell orders
     """
-    res = requests.get(f"{base}/depth", params={"symbol": symbo, "limit": limit}, timeout=5)
+    res = requests.get(f"{base}/depth", params={"symbol": symbo, "limit": limit}, timeout=10)
     res.raise_for_status()
     return res.json()
 

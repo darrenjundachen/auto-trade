@@ -53,5 +53,5 @@ while True:
         db.insert({'time': datetime.now().strftime("%Y-%m-%dT%H:%M:%S"), 'figure': get_number()})
         db.remove(Item.time < last_valid_time)
         time.sleep(10)
-    except:
-        print(traceback.format_exc())
+    except Exception:
+        pass
