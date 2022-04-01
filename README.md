@@ -1,5 +1,4 @@
-# auto-trade
-$$¥¥MoneyMoney钱钱
+# BTC trade bot
 
 # Start trading
 `python start_trading.py 40000`
